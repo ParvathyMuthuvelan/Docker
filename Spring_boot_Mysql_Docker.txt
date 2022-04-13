@@ -1,0 +1,24 @@
+1) Create SpringBoot Rest API application with mysql connection.
+2) Create Dockerfile in the project folder,script.sql in the resources folder.
+3) Two docker containers need to be created. One for MySQL, and another for SpringBoot- two different services.
+4) Test the SpringBoot application with postman before dockerizing
+5) Run as Maven install the SpringBoot project and create jar file.
+6) SpringBoot and MySQL should use the same network for communication.
+7) Go to command prompt and execute the following command to create network.
+cmd>docker network create rating-mysql
+rating-mysql is user-defined network name
+8) To list the available networks, execute the following command
+cmd>docker network ls
+9) Create a docker container for Mysql using the foll.command
+docker container run --name mysqldb --network rating-mysql -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=test -d mysql:8.0.17
+10) View the container log in Docker desktop.
+11) docker exec -it  mysqldb bash - to start Mysql container and connect to linux prompt excute the foll.command
+mysql -u root -p
+password: root
+12) Create image for SpringBoot application
+docker image build -t rating-data-service .
+Execute the above command in the project folder
+13)Create a container for SpringBoot 
+docker container run --network rating-mysql --name rating-container -p 8080:8080 -d rating-data-service
+14) Watch the container log to check, if the container has started
+15) Test the Rest API using postman.
